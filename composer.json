@@ -1,0 +1,25 @@
+{
+  "name": "richardhj/epost-api",
+  "description": "E-POSTBUSINESS API PHP integration",
+  "authors": [
+    {
+      "name": "Richard Henkenjohann",
+      "email": "richard@henkenjohann.me",
+      "homepage": "http://henkenjohann.me",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "richard@henkenjohann.me"
+  },
+  "require": {
+    "php": "^5.4 || ^7.0",
+    "guzzlehttp/guzzle": "~6.0",
+    "richardhj/oauth2-epost": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "EPost\\Api\\": "src/"
+    }
+  }
+}
