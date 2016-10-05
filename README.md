@@ -4,7 +4,7 @@
 [![Software License][ico-license]]()
 [![Dependency Status][ico-dependencies]][link-dependencies]
 
-This package provides E-POSTBUSINESS API OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
+This package provides an PHP integration of the E-POSTBUSINESS API.
 
 ## Install
 
