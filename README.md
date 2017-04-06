@@ -42,7 +42,7 @@ $envelope
 ```
 
 ##### Recipients
-We created a our envelope and we need to add the recipients. This is how for an electronic letter.
+We created our envelope and we need to add the recipients. This is how for an electronic letter.
 
 ```php
 // Add recipients for normal letter
@@ -156,10 +156,10 @@ $letter
 
 ## License
 
-TODO
+The  GNU Lesser General Public License (LGPL).
 
 [ico-version]: https://img.shields.io/packagist/v/richardhj/epost-api.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-TODO-brightgreen.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-LGPL-brightgreen.svg?style=flat-square
 [ico-dependencies]: https://www.versioneye.com/php/richardhj:epost-api/badge.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/richardhj/epost-api
