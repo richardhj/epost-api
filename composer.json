@@ -4,18 +4,19 @@
   "authors": [
     {
       "name": "Richard Henkenjohann",
-      "email": "richard@henkenjohann.me",
+      "email": "richard-epost@henkenjohann.me",
       "homepage": "http://henkenjohann.me",
       "role": "Developer"
     }
   ],
   "license": "LGPL-3.0+",
   "support": {
-    "email": "richard@henkenjohann.me"
+    "issues": "https://github.com/richardhj/epost-api/issues",
+		"source": "https://github.com/richardhj/epost-api"
   },
   "require": {
     "php": "^5.4 || ^7.0",
-    "guzzlehttp/guzzle": "~6.0",
+    "guzzlehttp/guzzle": "^6.0",
     "richardhj/oauth2-epost": "*"
   },
   "autoload": {
