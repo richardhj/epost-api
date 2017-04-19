@@ -16,8 +16,13 @@ use EPost\Api\Metadata\Envelope;
 use EPost\Api\Metadata\PostageInfo;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\HandlerStack as GuzzleHandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware as GuzzleMiddleware;
 use GuzzleHttp\Psr7\MultipartStream;
 use League\OAuth2\Client\Token\AccessToken;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 
 
 /**
@@ -68,11 +73,33 @@ class Letter
 
 
     /**
+     * A toggle to enable logging
+     *
+     * @var bool
+     */
+    protected $loggingEnabled;
+
+
+    /**
      * The Guzzle HTTP Client
      *
      * @var HttpClient
      */
     protected $httpClient;
+
+
+    /**
+     * The message format used when logging a Guzzle request or response
+     *
+     * @var string
+     */
+    protected $loggerMessageFormat;
+
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
 
 
     /**
@@ -138,7 +165,7 @@ class Letter
      */
     public function getEndpointMailbox()
     {
-        return !$this->testEnvironment ? static::$endpointMailboxProduction : static::$endpointMailboxTest;
+        return !$this->isTestEnvironment() ? static::$endpointMailboxProduction : static::$endpointMailboxTest;
     }
 
 
@@ -149,7 +176,7 @@ class Letter
      */
     public function getEndpointSend()
     {
-        return !$this->testEnvironment ? static::$endpointSendProduction : static::$endpointSendTest;
+        return !$this->isTestEnvironment() ? static::$endpointSendProduction : static::$endpointSendTest;
     }
 
 
@@ -425,6 +452,63 @@ class Letter
 
 
     /**
+     * @return bool
+     */
+    public function isTestEnvironment()
+    {
+        return $this->testEnvironment;
+    }
+
+
+    /**
+     * @param bool $loggingEnabled
+     *
+     * @return self
+     */
+    public function setLoggingEnabled($loggingEnabled)
+    {
+        $this->loggingEnabled = $loggingEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLoggingEnabled()
+    {
+        return $this->loggingEnabled;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getLoggerMessageFormat()
+    {
+        if (null === $this->loggerMessageFormat) {
+            $this->loggerMessageFormat = '{method} {uri} HTTP/{version} {req_body}'.PHP_EOL
+                                         .'RESPONSE: {code} - {res_body}';
+        }
+
+        return $this->loggerMessageFormat;
+    }
+
+
+    /**
+     * @param $loggerMessageFormat
+     *
+     * @return self
+     */
+    public function setLoggerMessageFormat($loggerMessageFormat)
+    {
+        $this->loggerMessageFormat = $loggerMessageFormat;
+
+        return $this;
+    }
+
+
+    /**
      * Create a draft by given envelope and attachments
      *
      * @return self
@@ -470,8 +554,18 @@ class Letter
             'body'    => $multipart,
         ];
 
+        // Handle logging
+        if ($this->isLoggingEnabled()) {
+            $handlerStack = GuzzleHandlerStack::create();
+            $handlerStack->push(
+                $this->createGuzzleLoggingMiddleware($this->getLoggerMessageFormat())
+            );
+
+            $requestOptions['handler'] = $handlerStack;
+        }
+
         $response = $this->getHttpClientForMailbox()->request('POST', '/letters', $requestOptions);
-        $data = \GuzzleHttp\json_decode($response->getBody()->getContents());
+        $data = \GuzzleHttp\json_decode((string)$response->getBody());
 
         $this->setLetterId($data->letterId);
 
@@ -523,9 +617,20 @@ class Letter
             ],
         ];
 
+        // Add delivery options
         if ($this->getEnvelope()->isHybridLetter() && $this->getDeliveryOptions()) {
             $options['headers']['Content-Type'] = $this->getDeliveryOptions()->getMimeType();
             $options['json'] = $this->getDeliveryOptions();
+        }
+
+        // Handle logging
+        if ($this->isLoggingEnabled()) {
+            $handlerStack = GuzzleHandlerStack::create();
+            $handlerStack->push(
+                $this->createGuzzleLoggingMiddleware($this->getLoggerMessageFormat())
+            );
+
+            $options['handler'] = $handlerStack;
         }
 
         $this->getHttpClientForSend()->request('POST', '/deliveries', $options);
@@ -609,6 +714,35 @@ class Letter
                     'x-epost-access-token' => $this->getAccessToken()->getToken(),
                 ],
             ]
+        );
+    }
+
+
+    /**
+     * @return Logger
+     */
+    private function getLogger()
+    {
+        if (!$this->logger) {
+            $this->logger = (new Logger('epost'))->pushHandler(
+                new RotatingFileHandler(TL_ROOT.'/system/logs/epost.log')
+            );
+        }
+
+        return $this->logger;
+    }
+
+
+    /**
+     * @param string $messageFormat
+     *
+     * @return callable
+     */
+    private function createGuzzleLoggingMiddleware($messageFormat)
+    {
+        return GuzzleMiddleware::log(
+            $this->getLogger(),
+            new MessageFormatter($messageFormat)
         );
     }
 
