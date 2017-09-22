@@ -1,19 +1,22 @@
 <?php
+
 /**
- * E-POSTBUSINESS API integration
+ * This file is part of richardhj/epost-api.
  *
- * Copyright (c) 2015-2016 Richard Henkenjohann
+ * Copyright (c) 2015-2017 Richard Henkenjohann
  *
- * @package E-POSTBUSINESS
- * @author  Richard Henkenjohann <richard-epost@henkenjohann.me>
+ * @package   richardhj/epost-api
+ * @author    Richard Henkenjohann <richardhenkenjohann@googlemail.com>
+ * @copyright 2015-2017 Richard Henkenjohann
+ * @license   https://github.com/richardhj/epost-api/blob/master/LICENSE LGPL-3.0
  */
 
-namespace EPost\Api\Exception;
+namespace Richardhj\EPost\Api\Exception;
 
 
 /**
  * Class MissingPreconditionException
- * @package EPost\Api\Exception
+ * @package Richardhj\EPost\Api\Exception
  */
 class MissingPreconditionException extends \LogicException
 {

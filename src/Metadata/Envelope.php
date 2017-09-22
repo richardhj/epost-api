@@ -1,22 +1,25 @@
 <?php
+
 /**
- * E-POSTBUSINESS API integration
+ * This file is part of richardhj/epost-api.
  *
- * Copyright (c) 2015-2016 Richard Henkenjohann
+ * Copyright (c) 2015-2017 Richard Henkenjohann
  *
- * @package E-POSTBUSINESS
- * @author  Richard Henkenjohann <richard-epost@henkenjohann.me>
+ * @package   richardhj/epost-api
+ * @author    Richard Henkenjohann <richardhenkenjohann@googlemail.com>
+ * @copyright 2015-2017 Richard Henkenjohann
+ * @license   https://github.com/richardhj/epost-api/blob/master/LICENSE LGPL-3.0
  */
 
-namespace EPost\Api\Metadata;
+namespace Richardhj\EPost\Api\Metadata;
 
-use EPost\Api\Metadata\Envelope\AbstractRecipient;
-use EPost\Api\Metadata\Envelope\Recipient;
+use Richardhj\EPost\Api\Metadata\Envelope\AbstractRecipient;
+use Richardhj\EPost\Api\Metadata\Envelope\Recipient;
 
 
 /**
  * Class Envelope
- * @package EPost\Api\Metadata
+ * @package Richardhj\EPost\Api\Metadata
  */
 class Envelope implements MetadataInterface
 {

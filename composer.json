@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "EPost\\Api\\": "src/"
+      "Richardhj\\EPost\\Api\\": "src/"
     }
   }
 }

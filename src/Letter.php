@@ -1,28 +1,31 @@
 <?php
+
 /**
- * E-POSTBUSINESS API integration
+ * This file is part of richardhj/epost-api.
  *
- * Copyright (c) 2015-2016 Richard Henkenjohann
+ * Copyright (c) 2015-2017 Richard Henkenjohann
  *
- * @package E-POSTBUSINESS
- * @author  Richard Henkenjohann <richard-epost@henkenjohann.me>
+ * @package   richardhj/epost-api
+ * @author    Richard Henkenjohann <richardhenkenjohann@googlemail.com>
+ * @copyright 2015-2017 Richard Henkenjohann
+ * @license   https://github.com/richardhj/epost-api/blob/master/LICENSE LGPL-3.0
  */
 
-namespace EPost\Api;
+namespace Richardhj\EPost\Api;
 
-use EPost\Api\Exception\MissingPreconditionException;
-use EPost\Api\Metadata\DeliveryOptions;
-use EPost\Api\Metadata\Envelope;
-use EPost\Api\Metadata\PostageInfo;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\MultipartStream;
 use League\OAuth2\Client\Token\AccessToken;
+use Richardhj\EPost\Api\Exception\MissingPreconditionException;
+use Richardhj\EPost\Api\Metadata\DeliveryOptions;
+use Richardhj\EPost\Api\Metadata\Envelope;
+use Richardhj\EPost\Api\Metadata\PostageInfo;
 
 
 /**
  * Class Letter
- * @package EPost\Api
+ * @package Richardhj\EPost\Api
  */
 class Letter
 {
@@ -622,9 +625,9 @@ class Letter
      */
     private static function getMimeTypeOfFile($path)
     {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_file($finfo, $path);
-        finfo_close($finfo);
+        $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($fileInfo, $path);
+        finfo_close($fileInfo);
 
         return $mime;
     }
