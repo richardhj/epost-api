@@ -14,6 +14,7 @@
 namespace Richardhj\EPost\Api\Test\Metadata;
 
 use LogicException;
+use PHPUnit\Framework\TestCase;
 use Richardhj\EPost\Api\Metadata\Envelope;
 
 
@@ -22,11 +23,13 @@ use Richardhj\EPost\Api\Metadata\Envelope;
  *
  * @package Richardhj\EPost\Api\Test\Metadata
  */
-class EnvelopeTest extends \PHPUnit_Framework_TestCase
+class EnvelopeTest extends TestCase
 {
 
     public function testInvalidMultipleRecipientsOnHybridLetter()
     {
+        $this->expectException(LogicException::class);
+
         $envelope = new Envelope();
         $envelope->setSystemMessageTypeHybrid();
 
@@ -38,7 +41,5 @@ class EnvelopeTest extends \PHPUnit_Framework_TestCase
         foreach ($recipients as $recipient) {
             $envelope->addRecipientPrinted($recipient);
         }
-
-        $this->expectException(LogicException::class);
     }
 }

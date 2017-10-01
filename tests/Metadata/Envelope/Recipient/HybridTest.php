@@ -13,6 +13,7 @@
 
 namespace Richardhj\EPost\Api\Test\Metadata\Envelope\Recipient;
 
+use PHPUnit\Framework\TestCase;
 use Richardhj\EPost\Api\Exception\InvalidRecipientDataException;
 use Richardhj\EPost\Api\Metadata\Envelope\Recipient\Hybrid as Recipient;
 
@@ -22,7 +23,7 @@ use Richardhj\EPost\Api\Metadata\Envelope\Recipient\Hybrid as Recipient;
  *
  * @package Richardhj\EPost\Api\Test\Metadata\Envelope\Recipient
  */
-class HybridTest extends \PHPUnit_Framework_TestCase
+class HybridTest extends TestCase
 {
 
     public function testValid()
@@ -33,72 +34,67 @@ class HybridTest extends \PHPUnit_Framework_TestCase
             ->setLastName('Mustermann')
             ->setStreetName('Paulistr. 4')
             ->setZipCode('12345')
-            ->setCity('Berlin')
-        ;
+            ->setCity('Berlin');
 
         $this->assertTrue(!empty($recipient->getData()));
-        $this->assertJson(json_decode($recipient));
+        $this->assertJson(json_encode($recipient));
     }
 
 
     public function testNoStreetNorPostBoxButZipCode()
     {
+        $this->expectException(InvalidRecipientDataException::class);
+
         $recipient = new Recipient();
         $recipient
             ->setFirstName('Erika')
             ->setLastName('Mustermann')
             ->setZipCode('12345')
-            ->setCity('Berlin')
-        ;
+            ->setCity('Berlin');
 
-        $json = json_decode($recipient);
-
-        $this->expectException(InvalidRecipientDataException::class);
+        json_encode($recipient);
     }
 
     public function testStreetNameButNoZipCode()
     {
+        $this->expectException(InvalidRecipientDataException::class);
+
         $recipient = new Recipient();
         $recipient
             ->setFirstName('Erika')
             ->setLastName('Mustermann')
             ->setStreetName('Paulistr. 5')
-            ->setCity('Berlin')
-        ;
+            ->setCity('Berlin');
 
-        $json = json_decode($recipient);
-
-        $this->expectException(InvalidRecipientDataException::class);
+        json_encode($recipient);
     }
 
     public function testPostOfficeBoxButNoZipCode()
     {
+        $this->expectException(InvalidRecipientDataException::class);
+
         $recipient = new Recipient();
         $recipient
             ->setFirstName('Erika')
             ->setLastName('Mustermann')
             ->setPostOfficeBox('123456')
-            ->setCity('Berlin')
-        ;
+            ->setCity('Berlin');
 
-        $json = json_decode($recipient);
-
-        $this->expectException(InvalidRecipientDataException::class);
+        json_encode($recipient);
     }
 
     public function testStreetNameAndPostOfficeBox()
     {
+        $this->expectException(InvalidRecipientDataException::class);
+
         $recipient = new Recipient();
         $recipient
             ->setFirstName('Erika')
             ->setLastName('Mustermann')
             ->setPostOfficeBox('123456')
             ->setStreetName('Paulistr. 5')
-            ->setCity('Berlin')
-        ;
+            ->setCity('Berlin');
 
-        $json = json_decode($recipient);
-
-        $this->expectException(InvalidRecipientDataException::class);
+        json_encode($recipient);
     }
 }

@@ -14,13 +14,15 @@
 
 namespace Richardhj\EPost\Api\Test;
 
+use PHPUnit\Framework\TestCase;
+
 
 /**
  * Class LetterTest
  *
  * @package Richardhj\EPost\Api\Test
  */
-class LetterTest extends \PHPUnit_Framework_TestCase
+class LetterTest extends TestCase
 {
 
 }

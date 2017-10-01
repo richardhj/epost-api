@@ -13,13 +13,15 @@
 
 namespace Richardhj\EPost\Api\Test\Metadata;
 
+use PHPUnit\Framework\TestCase;
+
 
 /**
  * Class DeliveryOptionsTest
  *
  * @package Richardhj\EPost\Api\Test\Metadata
  */
-class DeliveryOptionsTest extends \PHPUnit_Framework_TestCase
+class DeliveryOptionsTest extends TestCase
 {
 
 }

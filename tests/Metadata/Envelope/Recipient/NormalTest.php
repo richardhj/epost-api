@@ -13,6 +13,7 @@
 
 namespace Richardhj\EPost\Api\Test\Metadata\Envelope\Recipient;
 
+use PHPUnit\Framework\TestCase;
 use Richardhj\EPost\Api\Exception\InvalidRecipientDataException;
 use Richardhj\EPost\Api\Metadata\Envelope\Recipient\Normal as Recipient;
 
@@ -22,7 +23,7 @@ use Richardhj\EPost\Api\Metadata\Envelope\Recipient\Normal as Recipient;
  *
  * @package Richardhj\EPost\Api\Test\Metadata\Envelope\Recipient
  */
-class NormalTest extends \PHPUnit_Framework_TestCase
+class NormalTest extends TestCase
 {
     public function testFriendlyEmail()
     {
@@ -37,11 +38,11 @@ class NormalTest extends \PHPUnit_Framework_TestCase
 
     public function testNoEpostAddress()
     {
+        $this->expectException(InvalidRecipientDataException::class);
+
         $recipient = new Recipient();
         $recipient->setDisplayName('Erika Mustermann');
 
-        $json = json_encode($recipient);
-
-        $this->expectException(InvalidRecipientDataException::class);
+        json_encode($recipient);
     }
 }

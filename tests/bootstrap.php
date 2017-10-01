@@ -13,9 +13,16 @@
 
 error_reporting(E_ALL);
 
-if (!is_file($autoloadFile = __DIR__.'/../vendor/autoload.php')) {
+function includeIfExists($file)
+{
+    return file_exists($file) ? include $file : false;
+}
+
+if (
+    // Locally installed dependencies.
+    (!$loader = includeIfExists(__DIR__.'/../vendor/autoload.php'))
+    // We are within an composer install.
+    && (!$loader = includeIfExists(__DIR__.'/../../../autoload.php'))) {
     echo 'Could not find "vendor/autoload.php". Did you forget to run "composer install --dev"?'.PHP_EOL;
     exit(1);
 }
-
-require_once $autoloadFile;

@@ -13,6 +13,7 @@
 
 namespace Richardhj\EPost\Api\Test\Metadata;
 
+use PHPUnit\Framework\TestCase;
 use Richardhj\EPost\Api\Metadata\DeliveryOptions;
 use Richardhj\EPost\Api\Metadata\PostageInfo;
 
@@ -22,7 +23,7 @@ use Richardhj\EPost\Api\Metadata\PostageInfo;
  *
  * @package Richardhj\EPost\Api\Test\Metadata
  */
-class PostageInfoTest extends \PHPUnit_Framework_TestCase
+class PostageInfoTest extends TestCase
 {
 
     public function testHasOptions()
