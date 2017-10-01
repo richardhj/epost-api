@@ -18,7 +18,8 @@ $ composer require richardhj/epost-api
 
 ### Authenticate user
 
-First of all you have to fetch an `AccessToken` instance by authenticating the user. You're probably going to use the [OAuth2 Provider](https://github.com/richardhj/oauth2-epost) for this.
+First of all you have to fetch an `AccessToken` instance by authenticating the user. I recommend to use this
+[OAuth2 Provider](https://github.com/richardhj/oauth2-epost) for fetching the access token.
 
 ```php
 // Authenticate
@@ -29,12 +30,13 @@ $token = $this->fetchAccessToken();
 ### Provide metadata
 #### Envelope
 
-We're going big steps forward and create a `Letter` instance. The `Letter` collects all metadata (envelope, delivery options…), creates a letter draft on the E-POST portal and finally sends the letter.
+We're going big steps forward and create a `Letter` instance. The `Letter` collects all metadata (envelope, delivery
+options…), creates a letter draft on the E-POST portal and finally sends the letter.
 
 ```php
 // Create letter and envelope
-$letter = new EPost\Api\Letter();
-$envelope = new EPost\Api\Metadata\Envelope();
+$letter = new Richardhj\EPost\Api\Letter();
+$envelope = new Richardhj\EPost\Api\Metadata\Envelope();
 $envelope
     ->setSystemMessageTypeNormal()  // For sending an electronic letter *OR*
     ->setSystemMessageTypeHybrid()  // For sending a physical letter
@@ -46,7 +48,7 @@ We created our envelope and we need to add the recipients. This is how for an el
 
 ```php
 // Add recipients for normal letter
-$recipient = new EPost\Api\Metadata\Envelope\Recipient\Normal::createFromFriendlyEmail('John Doe <doe@example.com>');
+$recipient = new Richardhj\EPost\Api\Metadata\Envelope\Recipient\Normal::createFromFriendlyEmail('John Doe <doe@example.com>');
 
 $envelope->addRecipientNormal($recipient);
 ```
@@ -55,7 +57,7 @@ And this is how for a printed letter. For printed letters, only one recipient is
 
 ```php
 // Set recipients and delivery options for printed letter
-$recipient = new EPost\Api\Metadata\Envelope\Recipient\Hybrid();
+$recipient = new Richardhj\EPost\Api\Metadata\Envelope\Recipient\Hybrid();
 $recipient
     ->setFirstName('John')
     ->setLastName('Doe')
@@ -67,11 +69,12 @@ $envelope->addRecipientPrinted($recipient);
 ```
 
 #### Delivery options
-We also define `DeliveryOptions` as they define whether the letter is going to be colored and so on. This is for printed letters only.
+We also define `DeliveryOptions` as they define whether the letter is going to be colored and so on. This is for printed
+letters only.
 
 ```php
 // Set delivery options
-$deliveryOptions = new EPost\Api\Metadata\DeliveryOptions();
+$deliveryOptions = new Richardhj\EPost\Api\Metadata\DeliveryOptions();
 $deliveryOptions
     ->setRegisteredStandard()   // This will make the letter sent as "Einschreiben ohne Optionen"
     ->setColorColored()         // To make it expensive
@@ -121,13 +124,14 @@ var_dump($priceInformation);
 Case 2: You need to provide `PostageInfo`:
 
 ```php
-$postageInfo = new EPost\Api\Metadata\PostageInfo();
+$postageInfo = new Richardhj\EPost\Api\Metadata\PostageInfo();
 $postageInfo
     ->setLetterTypeHybrid()
     ->setLetterSize(3)
     ->setDeliveryOptions($deliveryOptions);
     
-$letter = new EPost\Api\Letter();
+$letter = new Richardhj\EPost\Api\Letter();
+$letter->setPostageInfo($postageInfo);
 $priceInformation = $letter->queryPriceInformation();
 
 var_dump($priceInformation);
@@ -152,7 +156,8 @@ $letter
     ->delete();
 ```
 
-`delete()` will delete the letter irrecoverably on the E-POST portal. You have to possibility to use `moveToTrash()` otherwise. 
+`delete()` will delete the letter irrecoverably on the E-POST portal. You have to possibility to use `moveToTrash()`
+otherwise. 
 
 ## License
 
@@ -164,7 +169,8 @@ Please follow the [Symfony Coding Standards](http://symfony.com/doc/current/cont
 
 ## Beispiel-Konzept
 
-[Dieses Konzept][link-concept] erklärt die verschiedenen Komponenten, die im Rahmen einer E-POSTBUSINESS-Integration für das CMS Contao genutzt wurden.
+[Dieses Konzept][link-concept] erklärt die verschiedenen Komponenten, die im Rahmen einer E-POSTBUSINESS-Integration für
+das CMS Contao genutzt wurden.
 
 [![Konzept][image-concept]][link-concept]
 
