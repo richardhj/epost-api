@@ -1,5 +1,6 @@
 # E-POSTBUSINESS API PHP integration
 
+[![Build Status][ico-build]][link-build]
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]]()
 [![Dependency Status][ico-dependencies]][link-dependencies]
@@ -174,12 +175,14 @@ das CMS Contao genutzt wurden.
 
 [![Konzept][image-concept]][link-concept]
 
+[ico-build]: https://travis-ci.org/richardhj/epost-api.svg?branch=master?style=flat-square
 [ico-version]: https://img.shields.io/packagist/v/richardhj/epost-api.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-LGPL-brightgreen.svg?style=flat-square
 [ico-dependencies]: https://www.versioneye.com/php/richardhj:epost-api/badge.svg?style=flat-square
 
 [image-concept]: https://www.dropbox.com/s/rfouu1bidkg62zs/Konzept_Henkenjohann_E-POST-Contao-1.png?dl=1
 
+[link-build]: https://travis-ci.org/richardhj/epost-api
 [link-packagist]: https://packagist.org/packages/richardhj/epost-api
 [link-dependencies]: https://www.versioneye.com/php/richardhj:epost-api
 [link-concept]: https://www.dropbox.com/s/fd7hl33galgy8jh/Konzept_Henkenjohann_E-POST-Contao.pdf?dl=0
