@@ -13,12 +13,14 @@
 
 namespace Richardhj\EPost\Api\Exception;
 
+use LogicException;
+
 
 /**
  * Class MissingPreconditionException
  * @package Richardhj\EPost\Api\Exception
  */
-class MissingPreconditionException extends \LogicException
+class MissingPreconditionException extends LogicException
 {
 
 }

@@ -13,15 +13,18 @@
 
 namespace Richardhj\EPost\Api\Metadata;
 
+use InvalidArgumentException;
+use LogicException;
 use Richardhj\EPost\Api\Metadata\Envelope\AbstractRecipient;
 use Richardhj\EPost\Api\Metadata\Envelope\Recipient;
 
 
 /**
  * Class Envelope
+ *
  * @package Richardhj\EPost\Api\Metadata
  */
-class Envelope implements MetadataInterface
+final class Envelope implements MetadataInterface
 {
 
     /**
@@ -31,28 +34,25 @@ class Envelope implements MetadataInterface
      */
     protected $data = [];
 
-
     /**
      * Specify to send an electronic E‑POST letter
      *
      * @return self
      */
-    public function setSystemMessageTypeNormal()
+    public function setSystemMessageTypeNormal(): Envelope
     {
         return $this->setSystemMessageType(self::LETTER_TYPE_NORMAL);
     }
-
 
     /**
      * Specify to send a physical E‑POST letter
      *
      * @return self
      */
-    public function setSystemMessageTypeHybrid()
+    public function setSystemMessageTypeHybrid(): Envelope
     {
         return $this->setSystemMessageType(self::LETTER_TYPE_HYBRID);
     }
-
 
     /**
      * Specify the type of E-POST letter
@@ -60,11 +60,12 @@ class Envelope implements MetadataInterface
      * @param string $messageType
      *
      * @return self
+     * @throws InvalidArgumentException
      */
-    public function setSystemMessageType($messageType)
+    public function setSystemMessageType($messageType): Envelope
     {
         if (!in_array($messageType, static::getLetterTypeOptions())) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Property %s is not supported for %s', $messageType, __FUNCTION__)
             );
         }
@@ -74,7 +75,6 @@ class Envelope implements MetadataInterface
         return $this;
     }
 
-
     /**
      * Get the system message type
      *
@@ -82,9 +82,8 @@ class Envelope implements MetadataInterface
      */
     public function getSystemMessageType()
     {
-        return $this->data['letterType']['systemMessageType'] ?: self::LETTER_TYPE_NORMAL;
+        return $this->data['letterType']['systemMessageType'] ?? self::LETTER_TYPE_NORMAL;
     }
-
 
     /**
      * Add a normal (electronic) recipient
@@ -93,10 +92,10 @@ class Envelope implements MetadataInterface
      *
      * @return self
      */
-    public function addRecipientNormal(Recipient\Normal $recipient)
+    public function addRecipientNormal(Recipient\Normal $recipient): Envelope
     {
         if ($this->isHybridLetter()) {
-            throw new \LogicException(
+            throw new LogicException(
                 sprintf('Can not set recipients if message type is "%s"', self::LETTER_TYPE_HYBRID)
             );
         }
@@ -106,7 +105,6 @@ class Envelope implements MetadataInterface
         return $this;
     }
 
-
     /**
      * Add a hybrid recipient for printed letters
      *
@@ -114,23 +112,22 @@ class Envelope implements MetadataInterface
      *
      * @return self
      */
-    public function addRecipientPrinted(Recipient\Hybrid $recipient)
+    public function addRecipientPrinted(Recipient\Hybrid $recipient): Envelope
     {
         if ($this->isNormalLetter()) {
-            throw new \LogicException(
+            throw new LogicException(
                 sprintf('Can not set recipientsPrinted if message type is "%s"', self::LETTER_TYPE_NORMAL)
             );
         }
 
         if (count($this->getRecipients())) {
-            throw new \LogicException('It must not be set more than one printed recipient');
+            throw new LogicException('It must not be set more than one printed recipient');
         }
 
         $this->data['recipientsPrinted'][] = $recipient;
 
         return $this;
     }
-
 
     /**
      * Get the recipients added to the envelope
@@ -152,7 +149,6 @@ class Envelope implements MetadataInterface
         return null;
     }
 
-
     /**
      * Set the subject of the E‑POST letter
      *
@@ -160,13 +156,12 @@ class Envelope implements MetadataInterface
      *
      * @return self
      */
-    public function setSubject($subject)
+    public function setSubject($subject): Envelope
     {
         $this->data['subject'] = $subject;
 
         return $this;
     }
-
 
     /**
      * Get the subject of the E‑POST letter
@@ -178,7 +173,6 @@ class Envelope implements MetadataInterface
         return $this->data['subject'];
     }
 
-
     /**
      * Check whether the letter will be carried out electronic
      *
@@ -189,7 +183,6 @@ class Envelope implements MetadataInterface
         return (self::LETTER_TYPE_NORMAL === $this->getSystemMessageType());
     }
 
-
     /**
      * Check whether the letter will be carried out printed
      *
@@ -199,7 +192,6 @@ class Envelope implements MetadataInterface
     {
         return (self::LETTER_TYPE_HYBRID === $this->getSystemMessageType());
     }
-
 
     /**
      * Get all options that can be used for setSystemMessageType() or similar
@@ -214,6 +206,15 @@ class Envelope implements MetadataInterface
         ];
     }
 
+    /**
+     * Get the array containing all envelope properties
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
 
     /**
      * {@inheritdoc}
@@ -223,12 +224,11 @@ class Envelope implements MetadataInterface
         return 'application/vnd.epost-letter+json';
     }
 
-
     /**
      * {@inheritdoc}
      */
     function jsonSerialize()
     {
-        return ['envelope' => $this->data];
+        return ['envelope' => $this->getData()];
     }
 }

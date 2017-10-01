@@ -13,12 +13,14 @@
 
 namespace Richardhj\EPost\Api\Metadata;
 
+use JsonSerializable;
+
 
 /**
  * Interface MetadataInterface
  * @package Richardhj\EPost\Api\Metadata
  */
-interface MetadataInterface extends \JsonSerializable
+interface MetadataInterface extends JsonSerializable
 {
 
     /**

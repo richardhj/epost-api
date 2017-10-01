@@ -13,12 +13,15 @@
 
 namespace Richardhj\EPost\Api\Metadata;
 
+use InvalidArgumentException;
+
 
 /**
  * Class DeliveryOptions
+ *
  * @package Richardhj\EPost\Api\Metadata
  */
-class DeliveryOptions implements MetadataInterface
+final class DeliveryOptions implements MetadataInterface
 {
 
     /**
@@ -26,60 +29,50 @@ class DeliveryOptions implements MetadataInterface
      */
     const OPTION_COLOR_GRAYSCALE = 'grayscale';
 
-
     /**
      * Color colored
      */
     const OPTION_COLOR_COLORED = 'colored';
-
 
     /**
      * Cover letter included
      */
     const OPTION_COVER_LETTER_INCLUDED = 'included';
 
-
     /**
      * Cover letter generate
      */
     const OPTION_COVER_LETTER_GENERATE = 'generate';
-
 
     /**
      * Registered standard
      */
     const OPTION_REGISTERED_STANDARD = 'standard';
 
-
     /**
      * Registered submission only
      */
     const OPTION_REGISTERED_SUBMISSION_ONLY = 'submissionOnly';
-
 
     /**
      * Registered addressee only
      */
     const OPTION_REGISTERED_ADDRESSEE_ONLY = 'addresseeOnly';
 
-
     /**
      * Registered with return receipt
      */
     const OPTION_REGISTERED_WITH_RETURN_RECEIPT = 'withReturnReceipt';
-
 
     /**
      * Registered addressee only with return receipt
      */
     const OPTION_REGISTERED_ADDRESSEE_ONLY_WITH_RETURN_RECEIPT = 'addresseeOnlyWithReturnReceipt';
 
-
     /**
      * Registered no
      */
     const OPTION_REGISTERED_NO = 'no';
-
 
     /**
      * The data used for json encoding
@@ -88,28 +81,25 @@ class DeliveryOptions implements MetadataInterface
      */
     protected $data = [];
 
-
     /**
      * The option specifies to carry out a black-and-white printing
      *
      * @return self
      */
-    public function setColorGrayscale()
+    public function setColorGrayscale(): DeliveryOptions
     {
         return $this->setColor(self::OPTION_COLOR_GRAYSCALE);
     }
-
 
     /**
      * The option specifies to carry out a color printing
      *
      * @return self
      */
-    public function setColorColored()
+    public function setColorColored(): DeliveryOptions
     {
         return $this->setColor(self::OPTION_COLOR_COLORED);
     }
-
 
     /**
      * The option specifies whether a color or black-and-white printing is carried out
@@ -117,18 +107,18 @@ class DeliveryOptions implements MetadataInterface
      * @param string $color
      *
      * @return self
+     * @throws InvalidArgumentException
      */
-    public function setColor($color)
+    public function setColor($color): DeliveryOptions
     {
         if (!in_array($color, static::getOptionsForColor())) {
-            throw new \InvalidArgumentException(sprintf('Property %s is not supported for %s', $color, __FUNCTION__));
+            throw new InvalidArgumentException(sprintf('Property %s is not supported for %s', $color, __FUNCTION__));
         }
 
         $this->data['color'] = $color;
 
         return $this;
     }
-
 
     /**
      * Get color property
@@ -137,31 +127,28 @@ class DeliveryOptions implements MetadataInterface
      */
     public function getColor()
     {
-        return $this->data['color'] ?: self::OPTION_COLOR_GRAYSCALE;
+        return $this->data['color'] ?? self::OPTION_COLOR_GRAYSCALE;
     }
-
 
     /**
      * The first page of the submitted PDF will be used as the cover letter
      *
      * @return self
      */
-    public function setCoverLetterIncluded()
+    public function setCoverLetterIncluded(): DeliveryOptions
     {
         return $this->setCoverLetter(self::OPTION_COVER_LETTER_INCLUDED);
     }
-
 
     /**
      * The cover letter is automatically generated
      *
      * @return self
      */
-    public function setCoverLetterGenerate()
+    public function setCoverLetterGenerate(): DeliveryOptions
     {
         return $this->setCoverLetter(self::OPTION_COVER_LETTER_GENERATE);
     }
-
 
     /**
      * The option specifies whether a cover letter is generated for delivery or if it is included in the PDF attachment
@@ -169,11 +156,12 @@ class DeliveryOptions implements MetadataInterface
      * @param string $coverLetter
      *
      * @return self
+     * @throws InvalidArgumentException
      */
-    public function setCoverLetter($coverLetter)
+    public function setCoverLetter($coverLetter): DeliveryOptions
     {
         if (!in_array($coverLetter, static::getOptionsForCoverLetter())) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Property %s is not supported for %s', $coverLetter, __FUNCTION__)
             );
         }
@@ -183,7 +171,6 @@ class DeliveryOptions implements MetadataInterface
         return $this;
     }
 
-
     /**
      * Get coverLetter property
      *
@@ -191,9 +178,8 @@ class DeliveryOptions implements MetadataInterface
      */
     public function getCoverLetter()
     {
-        return $this->data['coverLetter'] ?: self::OPTION_COVER_LETTER_GENERATE;
+        return $this->data['coverLetter'] ?? self::OPTION_COVER_LETTER_GENERATE;
     }
-
 
     /**
      * The option specifies whether a double-sided duplex printing is to be used. When duplex printing is used, all
@@ -203,13 +189,12 @@ class DeliveryOptions implements MetadataInterface
      *
      * @return $this
      */
-    public function setDuplex($duplex)
+    public function setDuplex($duplex): DeliveryOptions
     {
         $this->data['duplex'] = (bool)$duplex;
 
         return $this;
     }
-
 
     /**
      * Get duplex property
@@ -218,9 +203,8 @@ class DeliveryOptions implements MetadataInterface
      */
     public function getDuplex()
     {
-        return $this->data['duplex'] ? true : false;
+        return (bool)$this->data['duplex'];
     }
-
 
     /**
      * “Einschreiben ohne Optionen” (registered mail without options)
@@ -229,11 +213,10 @@ class DeliveryOptions implements MetadataInterface
      *
      * @return self
      */
-    public function setRegisteredStandard()
+    public function setRegisteredStandard(): DeliveryOptions
     {
         return $this->setRegistered(self::OPTION_REGISTERED_STANDARD);
     }
-
 
     /**
      * “Einschreiben Einwurf” (registered mail delivered to mailbox)
@@ -242,11 +225,10 @@ class DeliveryOptions implements MetadataInterface
      *
      * @return self
      */
-    public function setRegisteredSubmissionOnly()
+    public function setRegisteredSubmissionOnly(): DeliveryOptions
     {
         return $this->setRegistered(self::OPTION_REGISTERED_SUBMISSION_ONLY);
     }
-
 
     /**
      * “Einschreiben nur mit Option Eigenhändig” (personal registered mail)
@@ -254,11 +236,10 @@ class DeliveryOptions implements MetadataInterface
      *
      * @return self
      */
-    public function setRegisteredAddresseeOnly()
+    public function setRegisteredAddresseeOnly(): DeliveryOptions
     {
         return $this->setRegistered(self::OPTION_REGISTERED_ADDRESSEE_ONLY);
     }
-
 
     /**
      * “Einschreiben nur mit Option Rückschein” (registered mail with return receipt)
@@ -266,11 +247,10 @@ class DeliveryOptions implements MetadataInterface
      *
      * @return self
      */
-    public function setRegisteredWithReturnReceipt()
+    public function setRegisteredWithReturnReceipt(): DeliveryOptions
     {
         return $this->setRegistered(self::OPTION_REGISTERED_WITH_RETURN_RECEIPT);
     }
-
 
     /**
      * “Einschreiben mit Option Eigenhändig und Rückschein” (personal registered mail with return receipt)
@@ -278,22 +258,20 @@ class DeliveryOptions implements MetadataInterface
      *
      * @return self
      */
-    public function setRegisteredAddresseeOnlyWithReturnReceipt()
+    public function setRegisteredAddresseeOnlyWithReturnReceipt(): DeliveryOptions
     {
         return $this->setRegistered(self::OPTION_REGISTERED_ADDRESSEE_ONLY_WITH_RETURN_RECEIPT);
     }
-
 
     /**
      * “Standardbrief” (standard letter)
      *
      * @return self
      */
-    public function setRegisteredNo()
+    public function setRegisteredNo(): DeliveryOptions
     {
         return $this->setRegistered(self::OPTION_REGISTERED_NO);
     }
-
 
     /**
      * The option specifies if the E‑POST letter is sent as a “Einschreiben” (registered letter), and, if so, which
@@ -302,11 +280,12 @@ class DeliveryOptions implements MetadataInterface
      * @param string $registered
      *
      * @return self
+     * @throws InvalidArgumentException
      */
-    public function setRegistered($registered)
+    public function setRegistered($registered): DeliveryOptions
     {
         if (!in_array($registered, static::getOptionsForRegistered())) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Property %s is not supported for %s', $registered, __FUNCTION__)
             );
         }
@@ -316,7 +295,6 @@ class DeliveryOptions implements MetadataInterface
         return $this;
     }
 
-
     /**
      * Get registered property
      *
@@ -324,9 +302,8 @@ class DeliveryOptions implements MetadataInterface
      */
     public function getRegistered()
     {
-        return $this->data['registered'] ?: self::OPTION_REGISTERED_NO;
+        return $this->data['registered'] ?? self::OPTION_REGISTERED_NO;
     }
-
 
     /**
      * The option specifies whether an “Adressanreicherung” (address updating and enhancement) is to be carried out
@@ -335,13 +312,12 @@ class DeliveryOptions implements MetadataInterface
      *
      * @return self
      */
-    public function setTryElectronic($tryElectronic)
+    public function setTryElectronic($tryElectronic): DeliveryOptions
     {
         $this->data['tryElectronic'] = (bool)$tryElectronic;
 
         return $this;
     }
-
 
     /**
      * Get tryElectronic property
@@ -350,9 +326,8 @@ class DeliveryOptions implements MetadataInterface
      */
     public function getTryElectronic()
     {
-        return $this->data['tryElectronic'] ? true : false;
+        return (bool)$this->data['tryElectronic'];
     }
-
 
     /**
      * Get all options that can be used for setColor()
@@ -367,7 +342,6 @@ class DeliveryOptions implements MetadataInterface
         ];
     }
 
-
     /**
      * Get all options that can be used for setCoverLetter()
      *
@@ -380,7 +354,6 @@ class DeliveryOptions implements MetadataInterface
             self::OPTION_COVER_LETTER_INCLUDED,
         ];
     }
-
 
     /**
      * Get all options that can be used for setRegistered()
@@ -399,7 +372,6 @@ class DeliveryOptions implements MetadataInterface
         ];
     }
 
-
     /**
      * Get the array containing all delivery options
      *
@@ -410,7 +382,6 @@ class DeliveryOptions implements MetadataInterface
         return $this->data;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -419,12 +390,11 @@ class DeliveryOptions implements MetadataInterface
         return 'application/vnd.epost-dispatch-options+json';
     }
 
-
     /**
      * {@inheritdoc}
      */
     function jsonSerialize()
     {
-        return ['options' => $this->data];
+        return ['options' => $this->getData()];
     }
 }

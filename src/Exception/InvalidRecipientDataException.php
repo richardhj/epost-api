@@ -13,12 +13,14 @@
 
 namespace Richardhj\EPost\Api\Exception;
 
+use LogicException;
+
 
 /**
  * Class InvalidRecipientDataException
  * @package Richardhj\EPost\Api\Exception
  */
-class InvalidRecipientDataException extends \LogicException
+class InvalidRecipientDataException extends LogicException
 {
 
 }

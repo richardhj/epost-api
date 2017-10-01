@@ -13,12 +13,15 @@
 
 namespace Richardhj\EPost\Api\Metadata;
 
+use InvalidArgumentException;
+
 
 /**
  * Class PostageInfo
+ *
  * @package Richardhj\EPost\Api\Metadata
  */
-class PostageInfo implements MetadataInterface
+final class PostageInfo implements MetadataInterface
 {
 
     /**
@@ -28,36 +31,32 @@ class PostageInfo implements MetadataInterface
      */
     protected $letter = [];
 
-
     /**
      * The delivery options
      *
-     * @var DeliveryOptions|array
+     * @var DeliveryOptions
      */
-    protected $options = [];
-
+    protected $deliveryOptions;
 
     /**
      * Specify to send an electronic E‑POST letter
      *
      * @return self
      */
-    public function setLetterTypeNormal()
+    public function setLetterTypeNormal(): PostageInfo
     {
         return $this->setLetterType(self::LETTER_TYPE_NORMAL);
     }
-
 
     /**
      * Specify to send a printed E‑POST letter
      *
      * @return self
      */
-    public function setLetterTypeHybrid()
+    public function setLetterTypeHybrid(): PostageInfo
     {
         return $this->setLetterType(self::LETTER_TYPE_HYBRID);
     }
-
 
     /**
      * Set the letter type
@@ -65,11 +64,12 @@ class PostageInfo implements MetadataInterface
      * @param string $letterType
      *
      * @return self
+     * @throws InvalidArgumentException
      */
-    public function setLetterType($letterType)
+    public function setLetterType($letterType): PostageInfo
     {
         if (!in_array($letterType, Envelope::getLetterTypeOptions())) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Property %s is not supported for %s', $letterType, __FUNCTION__)
             );
         }
@@ -79,17 +79,15 @@ class PostageInfo implements MetadataInterface
         return $this;
     }
 
-
     /**
      * Get the letter type
      *
-     * @return string|null
+     * @return string
      */
     public function getLetterType()
     {
-        return $this->letter['type'];
+        return $this->letter['type'] ?? null;
     }
-
 
     /**
      * Set the letter size
@@ -98,24 +96,22 @@ class PostageInfo implements MetadataInterface
      *
      * @return self
      */
-    public function setLetterSize($letterSize)
+    public function setLetterSize($letterSize): PostageInfo
     {
         $this->letter['size'] = (int)$letterSize;
 
         return $this;
     }
 
-
     /**
      * Get the letter size
      *
-     * @return int|null
+     * @return int
      */
     public function getLetterSize()
     {
-        return $this->letter['size'];
+        return $this->letter['size'] ?? null;
     }
-
 
     /**
      * Set delivery options
@@ -124,13 +120,12 @@ class PostageInfo implements MetadataInterface
      *
      * @return self
      */
-    public function setDeliveryOptions(DeliveryOptions $options)
+    public function setDeliveryOptions(DeliveryOptions $options): PostageInfo
     {
-        $this->options = $options;
+        $this->deliveryOptions = $options;
 
         return $this;
     }
-
 
     /**
      * Get the delivery options
@@ -139,9 +134,8 @@ class PostageInfo implements MetadataInterface
      */
     public function getDeliveryOptions()
     {
-        return $this->options;
+        return $this->deliveryOptions;
     }
-
 
     /**
      * Check whether the letter will be carried out electronic
@@ -153,7 +147,6 @@ class PostageInfo implements MetadataInterface
         return (self::LETTER_TYPE_NORMAL === $this->getLetterType());
     }
 
-
     /**
      * Check whether the letter will be carried out printed
      *
@@ -164,7 +157,6 @@ class PostageInfo implements MetadataInterface
         return (self::LETTER_TYPE_HYBRID === $this->getLetterType());
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -172,7 +164,6 @@ class PostageInfo implements MetadataInterface
     {
         return 'application/vnd.epost-postage-info+json';
     }
-
 
     /**
      * {@inheritdoc}
@@ -183,9 +174,9 @@ class PostageInfo implements MetadataInterface
             'letter' => $this->letter,
         ];
 
-        if ($this->options) {
+        if (null !== $this->deliveryOptions) {
             $return += [
-                'options' => $this->options->getData(),
+                'options' => $this->deliveryOptions->getData(),
             ];
         }
 
