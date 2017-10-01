@@ -69,13 +69,6 @@ class Letter
     private $testEnvironment;
 
     /**
-     * The Guzzle HTTP Client
-     *
-     * @var HttpClient
-     */
-    private $httpClient;
-
-    /**
      * The OAuth access token instance
      *
      * @var AccessToken
