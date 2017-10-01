@@ -13,6 +13,7 @@
 
 namespace Richardhj\EPost\Api\Metadata\Envelope\Recipient;
 
+use InvalidArgumentException;
 use Richardhj\EPost\Api\Exception\InvalidRecipientDataException;
 use Richardhj\EPost\Api\Metadata\Envelope\AbstractRecipient;
 
@@ -20,36 +21,13 @@ use Richardhj\EPost\Api\Metadata\Envelope\AbstractRecipient;
 /**
  * Class Hybrid
  *
- * @method Hybrid setCompany($company)
- * @method Hybrid setSalutation($salutation)
- * @method Hybrid setTitle($title)
- * @method Hybrid setFirstName($firstName)
- * @method Hybrid setLastName($lastName)
- * @method Hybrid setStreetName($streetName)
- * @method Hybrid setHouseNumber($houseNumber)
- * @method Hybrid setAddressAddOn($addressAddOn)
- * @method Hybrid setPostOfficeBox($postOfficeBox)
- * @method Hybrid setZipCode($zipCode)
- * @method Hybrid setCity($city)
- * @method string getCompany()
- * @method string getSalutation()
- * @method string getTitle()
- * @method string getFirstName()
- * @method string getLastName()
- * @method string getStreetName()
- * @method string getHouseNumber()
- * @method string getAddressAddOn()
- * @method string getPostOfficeBox()
- * @method string getZipCode()
- * @method string getCity()
- *
- * @package Richardhj\EPost\Api\Metadata\Envelope\AbstractRecipient
+ * @package Richardhj\EPost\Api\Metadata\Envelope\Recipient
  */
-class Hybrid extends AbstractRecipient
+final class Hybrid extends AbstractRecipient
 {
 
     /**
-     * Array containing all allowed properties with maximum allowed length
+     * Mapping allowed properties with maximum allowed length
      *
      * @var array
      */
@@ -67,32 +45,235 @@ class Hybrid extends AbstractRecipient
         'city'          => 80,
     ];
 
-
     /**
-     * {@inheritdoc}
+     * @param string $company
+     *
+     * @return self
      */
-    public function __set($key, $value)
+    public function setCompany($company): Hybrid
     {
-        if (!in_array($key, static::getConfigurableFields())) {
-            throw new \InvalidArgumentException(sprintf('Property "%s" is not supported', $key));
-        }
+        self::validateSetLength('company', $company);
+        $this->data['company'] = $company;
 
-        if (strlen($value) > static::$validationLengthMap[$key]) {
-            throw new \InvalidArgumentException(
-                sprintf('Value of property "%s" exceeds maximum length of %u', $key, static::$validationLengthMap[$key])
-            );
-        }
-
-        return parent::__set($key, $value);
+        return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->data['company'] ?? null;
+    }
 
     /**
-     * {@inheritdoc}
+     * @param string $salutation
+     *
+     * @return self
      */
-    public static function getConfigurableFields()
+    public function setSalutation($salutation): Hybrid
     {
-        return array_keys(static::$validationLengthMap);
+        self::validateSetLength('salutation', $salutation);
+        $this->data['salutation'] = $salutation;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSalutation()
+    {
+        return $this->data['salutation'] ?? null;
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return self
+     */
+    public function setTitle($title): Hybrid
+    {
+        self::validateSetLength('title', $title);
+        $this->data['title'] = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->data['title'] ?? null;
+    }
+
+    /**
+     * @param string $firstName
+     *
+     * @return self
+     */
+    public function setFirstName($firstName): Hybrid
+    {
+        self::validateSetLength('firstName', $firstName);
+        $this->data['firstName'] = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->data['firstName'] ?? null;
+    }
+
+    /**
+     * @param string $lastName
+     *
+     * @return self
+     */
+    public function setLastName($lastName): Hybrid
+    {
+        self::validateSetLength('lastName', $lastName);
+        $this->data['lastName'] = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->data['lastName'] ?? null;
+    }
+
+    /**
+     * @param string $streetName
+     *
+     * @return self
+     */
+    public function setStreetName($streetName): Hybrid
+    {
+        self::validateSetLength('streetName', $streetName);
+        $this->data['streetName'] = $streetName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreetName()
+    {
+        return $this->data['streetName'] ?? null;
+    }
+
+    /**
+     * @param string $houseNumber
+     *
+     * @return self
+     */
+    public function setHouseNumber($houseNumber): Hybrid
+    {
+        self::validateSetLength('houseNumber', $houseNumber);
+        $this->data['houseNumber'] = $houseNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHouseNumber()
+    {
+        return $this->data['houseNumber'] ?? null;
+    }
+
+    /**
+     * @param string $addressAddOn
+     *
+     * @return self
+     */
+    public function setAddressAddOn($addressAddOn): Hybrid
+    {
+        self::validateSetLength('addressAddOn', $addressAddOn);
+        $this->data['addressAddOn'] = $addressAddOn;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddressAddOn()
+    {
+        return $this->data['addressAddOn'] ?? null;
+    }
+
+    /**
+     * @param string $postOfficeBox
+     *
+     * @return self
+     */
+    public function setPostOfficeBox($postOfficeBox): Hybrid
+    {
+        self::validateSetLength('postOfficeBox', $postOfficeBox);
+        $this->data['postOfficeBox'] = $postOfficeBox;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostOfficeBox()
+    {
+        return $this->data['postOfficeBox'] ?? null;
+    }
+
+    /**
+     * @param string $zipCode
+     *
+     * @return self
+     */
+    public function setZipCode($zipCode): Hybrid
+    {
+        self::validateSetLength('zipCode', $zipCode);
+        $this->data['zipCode'] = $zipCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getZipCode()
+    {
+        return $this->data['zipCode'] ?? null;
+    }
+
+    /**
+     * @param string $city
+     *
+     * @@return self
+     */
+    public function setCity($city): Hybrid
+    {
+        self::validateSetLength('city', $city);
+        $this->data['city'] = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->data['city'] ?? null;
     }
 
 
@@ -103,16 +284,29 @@ class Hybrid extends AbstractRecipient
      */
     function jsonSerialize()
     {
-        if (!((isset($this->streetName) || isset($this->postOfficeBox)) && isset($this->zipCode))) {
+        if ((null === $this->getStreetName() && null === $this->getPostOfficeBox()) || null === $this->getZipCode()) {
             throw new InvalidRecipientDataException(
                 'A (street name or post office box) and zip code must be set at least'
             );
         }
 
-        if (isset($this->streetName) && isset($this->postOfficeBox)) {
+        if (null !== $this->getStreetName() && null !== $this->getPostOfficeBox()) {
             throw new InvalidRecipientDataException('It must not be set a street name AND post office box');
         }
 
         return parent::jsonSerialize();
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    private static function validateSetLength($key, $value)
+    {
+        if (strlen($value) > static::$validationLengthMap[$key]) {
+            throw new InvalidArgumentException(
+                sprintf('Value of property "%s" exceeds maximum length of %u', $key, static::$validationLengthMap[$key])
+            );
+        }
     }
 }

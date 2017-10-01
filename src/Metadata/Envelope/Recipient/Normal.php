@@ -20,37 +20,50 @@ use Richardhj\EPost\Api\Metadata\Envelope\AbstractRecipient;
 /**
  * Class Normal
  *
- * @method Normal setDisplayName($displayName)
- * @method Normal setEpostAddress($epostAddress)
- * @method string getDisplayName()
- * @method string getEpostAddress()
- *
- * @package Richardhj\EPost\Api\Metadata\Envelope\AbstractRecipient
+ * @package Richardhj\EPost\Api\Metadata\Envelope\Recipient
  */
-class Normal extends AbstractRecipient
+final class Normal extends AbstractRecipient
 {
 
     /**
-     * {@inheritdoc}
+     * @param string $displayName
+     *
+     * @return self
      */
-    protected static $configurableFields = [
-        'displayName',
-        'epostAddress',
-    ];
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __set($key, $value)
+    public function setDisplayName($displayName): Normal
     {
-        if (in_array($key, static::getConfigurableFields())) {
-            return parent::__set($key, $value);
-        }
+        $this->data['displayName'] = $displayName;
 
-        throw new \InvalidArgumentException(sprintf('Property "%s" is not allowed to set', $key));
+        return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->data['displayName'] ?? null;
+    }
+
+    /**
+     * @param string $epostAddress
+     *
+     * @return Normal
+     */
+    public function setEpostAddress($epostAddress): Normal
+    {
+        $this->data['epostAddress'] = $epostAddress;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEpostAddress()
+    {
+        return $this->data['epostAddress'] ?? null;
+    }
 
     /**
      * Create an instance by given (friendly) email string
@@ -60,7 +73,7 @@ class Normal extends AbstractRecipient
      *
      * @return self
      */
-    public static function createFromFriendlyEmail($email)
+    public static function createFromFriendlyEmail($email): Normal
     {
         $recipient = new self;
 
@@ -75,7 +88,6 @@ class Normal extends AbstractRecipient
         return $recipient;
     }
 
-
     /**
      * Alias for createFromFriendlyEmail
      *
@@ -83,11 +95,10 @@ class Normal extends AbstractRecipient
      *
      * @return self
      */
-    public static function createFromEmail($email)
+    public static function createFromEmail($email): Normal
     {
         return static::createFromFriendlyEmail($email);
     }
-
 
     /**
      * Split a friendly-name e-address and return name and e-mail as array
@@ -109,7 +120,6 @@ class Normal extends AbstractRecipient
         }
     }
 
-
     /**
      * {@inheritdoc}
      *
@@ -117,7 +127,7 @@ class Normal extends AbstractRecipient
      */
     function jsonSerialize()
     {
-        if (!isset($this->epostAddress)) {
+        if (null === $this->getEpostAddress()) {
             throw new InvalidRecipientDataException('No E-POST address is set');
         }
 

@@ -15,7 +15,7 @@
 		"source": "https://github.com/richardhj/epost-api"
   },
   "require": {
-    "php": "^5.4 || ^7.0",
+    "php": "^7.0",
     "guzzlehttp/guzzle": "^6.0",
     "richardhj/oauth2-epost": "*"
   },
