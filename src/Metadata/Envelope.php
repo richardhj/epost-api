@@ -35,6 +35,15 @@ final class Envelope implements MetadataInterface
     protected $data = [];
 
     /**
+     * Envelope constructor.
+     */
+    public function __construct()
+    {
+        $this->data['recipients'] = [];
+        $this->data['recipientsPrinted'] = [];
+    }
+
+    /**
      * Specify to send an electronic E‑POST letter
      *
      * @return self
