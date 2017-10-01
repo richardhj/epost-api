@@ -19,7 +19,11 @@ use GuzzleHttp\Psr7\MultipartStream;
 use InvalidArgumentException;
 use League\OAuth2\Client\Token\AccessToken;
 use LogicException;
+use Richardhj\EPost\Api\Exception\MissingAccessTokenException;
+use Richardhj\EPost\Api\Exception\MissingAttachmentException;
+use Richardhj\EPost\Api\Exception\MissingEnvelopeException;
 use Richardhj\EPost\Api\Exception\MissingPreconditionException;
+use Richardhj\EPost\Api\Exception\MissingRecipientException;
 use Richardhj\EPost\Api\Metadata\DeliveryOptions;
 use Richardhj\EPost\Api\Metadata\Envelope;
 use Richardhj\EPost\Api\Metadata\PostageInfo;
@@ -155,12 +159,12 @@ class Letter
      * Get the access token
      *
      * @return AccessToken
-     * @throws MissingPreconditionException If the AccessToken is missing
+     * @throws MissingAccessTokenException If the AccessToken is missing
      */
     public function getAccessToken(): AccessToken
     {
         if (null === $this->accessToken) {
-            throw new MissingPreconditionException('An AccessToken instance must be passed');
+            throw new MissingAccessTokenException('An AccessToken instance must be passed');
         }
 
         return $this->accessToken;
@@ -184,18 +188,18 @@ class Letter
      * Get the envelope
      *
      * @return Envelope
-     * @throws MissingPreconditionException If the envelope is missing
-     * @throws LogicException If there are no recipients
+     * @throws MissingEnvelopeException If the envelope is missing
+     * @throws MissingRecipientException If there are no recipients
      */
     public function getEnvelope(): Envelope
     {
         if (null === $this->envelope) {
-            throw new MissingPreconditionException('No Envelope provided! Provide one beforehand');
+            throw new MissingEnvelopeException('No Envelope provided! Provide one beforehand');
         }
 
         // Check for recipients
         if (empty($this->envelope->getRecipients())) {
-            throw new LogicException('No recipients provided! Add them beforehand');
+            throw new MissingRecipientException('No recipients provided! Add them beforehand');
         }
 
         return $this->envelope;
@@ -262,12 +266,12 @@ class Letter
      * Get the attachments
      *
      * @return string[]
-     * @throws MissingPreconditionException If the attachments are missing
+     * @throws MissingAttachmentException If the attachments are missing
      */
     public function getAttachments()
     {
         if (!count($this->attachments)) {
-            throw new MissingPreconditionException('No attachments provided! Add at least one attachment');
+            throw new MissingAttachmentException('No attachments provided! Add at least one attachment');
         }
 
         return $this->attachments;

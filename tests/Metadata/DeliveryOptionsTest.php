@@ -14,6 +14,7 @@
 namespace Richardhj\EPost\Api\Test\Metadata;
 
 use PHPUnit\Framework\TestCase;
+use Richardhj\EPost\Api\Metadata\DeliveryOptions;
 
 
 /**
@@ -24,4 +25,13 @@ use PHPUnit\Framework\TestCase;
 class DeliveryOptionsTest extends TestCase
 {
 
+    public function testJsonArray()
+    {
+        $deliveryOptions = new DeliveryOptions();
+        $deliveryOptions->setColorColored();
+
+        $data = $deliveryOptions->jsonSerialize();
+
+        $this->assertArrayHasKey('options', $data);
+    }
 }
