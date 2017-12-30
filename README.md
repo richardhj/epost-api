@@ -14,6 +14,8 @@ Via Composer
 $ composer require richardhj/epost-api
 ```
 
+**For new implementations, I recommend to start with `v0.10.x-dev`.**
+
 ## Usage
 
 ### Authenticate user
