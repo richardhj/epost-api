@@ -23,5 +23,11 @@
     "psr-4": {
       "EPost\\Api\\": "src/"
     }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.9.x-dev",
+      "dev-feature/v0.10": "0.10.x-dev"
+    }
   }
 }
